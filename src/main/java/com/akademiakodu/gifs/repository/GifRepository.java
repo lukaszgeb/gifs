@@ -3,8 +3,10 @@ package com.akademiakodu.gifs.repository;
 import com.akademiakodu.gifs.model.Gif;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 public class GifRepository {
@@ -15,7 +17,7 @@ public class GifRepository {
             new Gif("book-dominos", "mem", true, 0),
             new Gif("compiler-bot", "bot", true, 1),
             new Gif("cowboy-coder", "code", true, 1),
-            new Gif("infinite-andrew", "andrew", true, 2)
+            new Gif("infinite-andrew", "andrew", false, 2)
     );
 
     public List<Gif> getGifs(){
@@ -31,5 +33,19 @@ public class GifRepository {
     }
 
 
+    public List<Gif> getFavoritesGifs() {
+         ALL_GIFS.stream()
+                .filter(Gif::getFavorite)
+                .collect(Collectors.toList());
 
+
+         List<Gif> favorites = new ArrayList<>();
+        for (Gif allGif : ALL_GIFS) {
+            if (allGif.getFavorite()){
+                favorites.add(allGif);
+            }
+        }
+        return favorites;
+
+    }
 }
